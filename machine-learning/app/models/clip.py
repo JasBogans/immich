@@ -1,9 +1,8 @@
-from pathlib import Path
 from typing import Any
 
-from PIL.Image import Image
+from PIL import Image
 from sentence_transformers import SentenceTransformer
-
+from io import BytesIO
 from ..schemas import ModelType
 from .base import InferenceModel
 
@@ -18,5 +17,7 @@ class CLIPSTEncoder(InferenceModel):
             **model_kwargs,
         )
 
-    def predict(self, image_or_text: Image | str) -> list[float]:
+    def _predict(self, image_or_text: Image.Image | bytes | str) -> list[float]:
+        if isinstance(image_or_text, bytes):
+            image_or_text = Image.open(BytesIO(image_or_text))
         return self.model.encode(image_or_text).tolist()

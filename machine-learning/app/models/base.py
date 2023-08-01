@@ -24,12 +24,20 @@ class InferenceModel(ABC):
             self.clear_cache()
             self.load(**model_kwargs)
 
+    def predict(self, inputs: Any, **kwargs: Any) -> Any:
+        if kwargs:
+            self.configure(**kwargs)
+        return self._predict(inputs)
+
+    def configure(self, **model_kwargs: Any) -> None:
+        pass
+
     @abstractmethod
     def load(self, **model_kwargs: Any) -> None:
         ...
 
     @abstractmethod
-    def predict(self, inputs: Any) -> Any:
+    def _predict(self, inputs: Any) -> Any:
         ...
 
     @property
