@@ -42,7 +42,7 @@ export const defaults = Object.freeze<SystemConfig>({
   },
   machineLearning: {
     classification: {
-      modelName: "microsoft/resnet50",
+      modelName: "microsoft/resnet-50",
       minScore: 0.9,
     },
     clipVision: {
