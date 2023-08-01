@@ -24,6 +24,7 @@ import { IMachineLearningRepository } from '../smart-info';
 import { SearchDto } from './dto';
 import { ISearchRepository } from './search.repository';
 import { SearchService } from './search.service';
+import { ISystemConfigRepository } from '../system-config/system-config.repository';
 
 jest.useFakeTimers();
 
@@ -36,12 +37,13 @@ describe(SearchService.name, () => {
   let machineMock: jest.Mocked<IMachineLearningRepository>;
   let searchMock: jest.Mocked<ISearchRepository>;
   let configMock: jest.Mocked<ConfigService>;
+  let systemConfigMock: jest.Mocked<ISystemConfigRepository>;
 
   const makeSut = (value?: string) => {
     if (value) {
       configMock.get.mockReturnValue(value);
     }
-    return new SearchService(albumMock, assetMock, faceMock, jobMock, machineMock, searchMock, configMock);
+    return new SearchService(albumMock, assetMock, faceMock, jobMock, machineMock, searchMock, systemConfigMock, configMock);
   };
 
   beforeEach(() => {
