@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import FFmpegSettings from '$lib/components/admin-page/settings/ffmpeg/ffmpeg-settings.svelte';
   import JobSettings from '$lib/components/admin-page/settings/job-settings/job-settings.svelte';
+  import MLSettings from '$lib/components/admin-page/settings/machine-learning/ml-settings.svelte';
   import OAuthSettings from '$lib/components/admin-page/settings/oauth/oauth-settings.svelte';
   import PasswordLoginSettings from '$lib/components/admin-page/settings/password-login/password-login-settings.svelte';
   import SettingAccordion from '$lib/components/admin-page/settings/setting-accordion.svelte';
@@ -35,6 +36,14 @@
       isOpen={$page.url.searchParams.get('open') === 'job-settings'}
     >
       <JobSettings jobConfig={configs.job} />
+    </SettingAccordion>
+
+    <SettingAccordion
+      title="Machine Learning Settings"
+      subtitle="Manage model settings"
+      isOpen={$page.url.searchParams.get('open') === 'ml-settings'}
+    >
+      <MLSettings machineLearningConfig={configs.machineLearning} />
     </SettingAccordion>
 
     <SettingAccordion title="Password Authentication" subtitle="Manage login with password settings">
