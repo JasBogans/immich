@@ -9,9 +9,9 @@ import { IPersonRepository } from '../person/person.repository';
 import { ISearchRepository } from '../search/search.repository';
 import { IMachineLearningRepository } from '../smart-info';
 import { IStorageRepository, StorageCore, StorageFolder } from '../storage';
-import { AssetFaceId, IFaceRepository } from './face.repository';
-import { ISystemConfigRepository } from '../system-config/system-config.repository';
 import { SystemConfigCore } from '../system-config/system-config.core';
+import { ISystemConfigRepository } from '../system-config/system-config.repository';
+import { AssetFaceId, IFaceRepository } from './face.repository';
 
 export class FacialRecognitionService {
   private logger = new Logger(FacialRecognitionService.name);
@@ -60,7 +60,9 @@ export class FacialRecognitionService {
       return false;
     }
 
-    const { machineLearning: { facialRecognition } } = await this.configCore.getConfig();
+    const {
+      machineLearning: { facialRecognition },
+    } = await this.configCore.getConfig();
     const faces = await this.machineLearning.detectFaces({ imagePath: asset.resizePath }, facialRecognition);
 
     this.logger.debug(`${faces.length} faces detected in ${asset.resizePath}`);

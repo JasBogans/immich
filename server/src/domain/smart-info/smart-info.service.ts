@@ -3,10 +3,10 @@ import { IAssetRepository, WithoutProperty } from '../asset';
 import { MACHINE_LEARNING_ENABLED } from '../domain.constant';
 import { usePagination } from '../domain.util';
 import { IBaseJob, IEntityJob, IJobRepository, JobName, JOBS_ASSET_PAGINATION_SIZE } from '../job';
-import { IMachineLearningRepository } from './machine-learning.interface';
-import { ISmartInfoRepository } from './smart-info.repository';
 import { SystemConfigCore } from '../system-config/system-config.core';
 import { ISystemConfigRepository } from '../system-config/system-config.repository';
+import { IMachineLearningRepository } from './machine-learning.interface';
+import { ISmartInfoRepository } from './smart-info.repository';
 
 @Injectable()
 export class SmartInfoService {
@@ -46,7 +46,9 @@ export class SmartInfoService {
       return false;
     }
 
-    const { machineLearning: { classification } } = await this.configCore.getConfig();
+    const {
+      machineLearning: { classification },
+    } = await this.configCore.getConfig();
     const tags = await this.machineLearning.classifyImage({ imagePath: asset.resizePath }, classification);
     await this.repository.upsert({ assetId: asset.id, tags });
 
@@ -76,7 +78,9 @@ export class SmartInfoService {
       return false;
     }
 
-    const { machineLearning: { clipVision } } = await this.configCore.getConfig();
+    const {
+      machineLearning: { clipVision },
+    } = await this.configCore.getConfig();
     const clipEmbedding = await this.machineLearning.encodeImage({ imagePath: asset.resizePath }, clipVision);
     await this.repository.upsert({ assetId: asset.id, clipEmbedding: clipEmbedding });
 

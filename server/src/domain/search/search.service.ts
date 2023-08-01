@@ -11,6 +11,8 @@ import { usePagination } from '../domain.util';
 import { AssetFaceId, IFaceRepository } from '../facial-recognition';
 import { IAssetFaceJob, IBulkEntityJob, IJobRepository, JobName, JOBS_ASSET_PAGINATION_SIZE } from '../job';
 import { IMachineLearningRepository } from '../smart-info';
+import { SystemConfigCore } from '../system-config/system-config.core';
+import { ISystemConfigRepository } from '../system-config/system-config.repository';
 import { SearchDto } from './dto';
 import { SearchConfigResponseDto, SearchResponseDto } from './response-dto';
 import {
@@ -21,8 +23,6 @@ import {
   SearchResult,
   SearchStrategy,
 } from './search.repository';
-import { ISystemConfigRepository } from '../system-config/system-config.repository';
-import { SystemConfigCore } from '../system-config/system-config.core';
 
 interface SyncQueue {
   upsert: Set<string>;
@@ -140,7 +140,9 @@ export class SearchService {
     let assets: SearchResult<AssetEntity>;
     switch (strategy) {
       case SearchStrategy.CLIP:
-        const { machineLearning: { clipText } } = await this.configCore.getConfig();
+        const {
+          machineLearning: { clipText },
+        } = await this.configCore.getConfig();
         const clip = await this.machineLearning.encodeText({ text: query }, clipText);
         assets = await this.searchRepository.vectorSearch(clip, filters);
         break;

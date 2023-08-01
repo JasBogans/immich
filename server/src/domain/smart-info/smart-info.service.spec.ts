@@ -5,14 +5,14 @@ import {
   newJobRepositoryMock,
   newMachineLearningRepositoryMock,
   newSmartInfoRepositoryMock,
-  newSystemConfigRepositoryMock
+  newSystemConfigRepositoryMock,
 } from '@test';
+import { ISystemConfigRepository } from '..';
 import { IAssetRepository, WithoutProperty } from '../asset';
 import { IJobRepository, JobName } from '../job';
 import { IMachineLearningRepository } from './machine-learning.interface';
 import { ISmartInfoRepository } from './smart-info.repository';
 import { SmartInfoService } from './smart-info.service';
-import { ISystemConfigRepository } from '..';
 
 const asset = {
   id: 'asset-1',

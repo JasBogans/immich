@@ -1,4 +1,4 @@
-import { ModelConfig } from "../system-config/dto/system-config-machine-learning.dto";
+import { ModelConfig } from '../system-config/dto/system-config-machine-learning.dto';
 
 export const IMachineLearningRepository = 'IMachineLearningRepository';
 

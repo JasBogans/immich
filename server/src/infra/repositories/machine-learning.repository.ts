@@ -1,4 +1,10 @@
-import { DetectFaceResult, IMachineLearningRepository, MACHINE_LEARNING_URL, TextModelInput, VisionModelInput } from '@app/domain';
+import {
+  DetectFaceResult,
+  IMachineLearningRepository,
+  MACHINE_LEARNING_URL,
+  TextModelInput,
+  VisionModelInput,
+} from '@app/domain';
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import FormData from 'form-data';
@@ -34,15 +40,15 @@ export class MachineLearningRepository implements IMachineLearningRepository {
     const formData = new FormData();
     const { modelName, modelType, ...options } = config;
 
-    formData.append('modelName', modelName)
+    formData.append('modelName', modelName);
     formData.append('modelType', modelType);
     if (options) {
       formData.append('options', options);
     }
-    if ("imagePath" in input) {
+    if ('imagePath' in input) {
       const fileStream = createReadStream(input.imagePath);
       formData.append('image', fileStream);
-    } else if ("text" in input) {
+    } else if ('text' in input) {
       formData.append('text', input.text);
     } else {
       throw new Error('Invalid input');

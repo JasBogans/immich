@@ -12,8 +12,8 @@ import * as _ from 'lodash';
 import { Subject } from 'rxjs';
 import { DeepPartial } from 'typeorm';
 import { QueueName } from '../job/job.constants';
-import { ISystemConfigRepository } from './system-config.repository';
 import { ModelType } from './dto/system-config-machine-learning.dto';
+import { ISystemConfigRepository } from './system-config.repository';
 
 export type SystemConfigValidator = (config: SystemConfig) => void | Promise<void>;
 
@@ -43,23 +43,23 @@ export const defaults = Object.freeze<SystemConfig>({
   },
   machineLearning: {
     classification: {
-      modelName: "microsoft/resnet-50",
+      modelName: 'microsoft/resnet-50',
       modelType: ModelType.IMAGE_CLASSIFICATION,
       minScore: 0.9,
     },
     clipVision: {
-      modelName: "clip-ViT-B-32",
+      modelName: 'clip-ViT-B-32',
       modelType: ModelType.CLIP,
     },
     clipText: {
-      modelName: "clip-ViT-B-32",
+      modelName: 'clip-ViT-B-32',
       modelType: ModelType.CLIP,
     },
     facialRecognition: {
-      modelName: "buffalo_l",
+      modelName: 'buffalo_l',
       modelType: ModelType.FACIAL_RECOGNITION,
       minScore: 0.7,
-    }
+    },
   },
   oauth: {
     enabled: false,
@@ -92,7 +92,7 @@ export class SystemConfigCore {
 
   public config$ = singleton;
 
-  constructor(private repository: ISystemConfigRepository) { }
+  constructor(private repository: ISystemConfigRepository) {}
 
   public getDefaults(): SystemConfig {
     return defaults;

@@ -9,10 +9,10 @@ import {
 import { BadRequestException } from '@nestjs/common';
 import { newJobRepositoryMock, newSystemConfigRepositoryMock } from '@test';
 import { IJobRepository, JobName, QueueName } from '../job';
+import { ModelType } from './dto/system-config-machine-learning.dto';
 import { defaults, SystemConfigValidator } from './system-config.core';
 import { ISystemConfigRepository } from './system-config.repository';
 import { SystemConfigService } from './system-config.service';
-import { ModelType } from './dto/system-config-machine-learning.dto';
 
 const updates: SystemConfigEntity[] = [
   { key: SystemConfigKey.FFMPEG_CRF, value: 30 },
@@ -45,23 +45,23 @@ const updatedConfig = Object.freeze<SystemConfig>({
   },
   machineLearning: {
     classification: {
-      modelName: "microsoft/resnet-50",
+      modelName: 'microsoft/resnet-50',
       modelType: ModelType.IMAGE_CLASSIFICATION,
       minScore: 0.9,
     },
     clipVision: {
-      modelName: "clip-ViT-B-32",
+      modelName: 'clip-ViT-B-32',
       modelType: ModelType.CLIP,
     },
     clipText: {
-      modelName: "clip-ViT-B-32",
+      modelName: 'clip-ViT-B-32',
       modelType: ModelType.CLIP,
     },
     facialRecognition: {
-      modelName: "buffalo_l",
+      modelName: 'buffalo_l',
       modelType: ModelType.FACIAL_RECOGNITION,
       minScore: 0.7,
-    }
+    },
   },
   oauth: {
     autoLaunch: true,
