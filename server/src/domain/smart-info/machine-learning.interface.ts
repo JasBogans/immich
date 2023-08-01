@@ -1,7 +1,13 @@
+import { CLIPTextConfig, CLIPVisionConfig, ClassificationConfig, FacialRecognitionConfig } from "../system-config/dto/system-config-machine-learning.dto";
+
 export const IMachineLearningRepository = 'IMachineLearningRepository';
 
-export interface MachineLearningInput {
+export interface VisionModelInput {
   imagePath: string;
+}
+
+export interface TextModelInput {
+  text: string;
 }
 
 export interface BoundingBox {
@@ -20,8 +26,8 @@ export interface DetectFaceResult {
 }
 
 export interface IMachineLearningRepository {
-  classifyImage(input: MachineLearningInput): Promise<string[]>;
-  encodeImage(input: MachineLearningInput): Promise<number[]>;
-  encodeText(input: string): Promise<number[]>;
-  detectFaces(input: MachineLearningInput): Promise<DetectFaceResult[]>;
+  classifyImage(input: VisionModelInput, config: ClassificationConfig): Promise<string[]>;
+  encodeImage(input: VisionModelInput, config: CLIPVisionConfig): Promise<number[]>;
+  encodeText(input: TextModelInput, config: CLIPTextConfig): Promise<number[]>;
+  detectFaces(input: VisionModelInput, config: FacialRecognitionConfig): Promise<DetectFaceResult[]>;
 }

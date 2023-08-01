@@ -40,6 +40,22 @@ export const defaults = Object.freeze<SystemConfig>({
     [QueueName.THUMBNAIL_GENERATION]: { concurrency: 5 },
     [QueueName.VIDEO_CONVERSION]: { concurrency: 1 },
   },
+  machineLearning: {
+    classification: {
+      modelName: "microsoft/resnet50",
+      minScore: 0.9,
+    },
+    clipVision: {
+      modelName: "clip-ViT-B-32",
+    },
+    clipText: {
+      modelName: "clip-ViT-B-32",
+    },
+    facialRecognition: {
+      modelName: "buffalo_l",
+      minScore: 0.7,
+    }
+  },
   oauth: {
     enabled: false,
     issuerUrl: '',
@@ -71,7 +87,7 @@ export class SystemConfigCore {
 
   public config$ = singleton;
 
-  constructor(private repository: ISystemConfigRepository) {}
+  constructor(private repository: ISystemConfigRepository) { }
 
   public getDefaults(): SystemConfig {
     return defaults;

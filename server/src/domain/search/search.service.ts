@@ -21,6 +21,8 @@ import {
   SearchResult,
   SearchStrategy,
 } from './search.repository';
+import { ISystemConfigRepository } from '../system-config/system-config.repository';
+import { SystemConfigCore } from '../system-config/system-config.core';
 
 interface SyncQueue {
   upsert: Set<string>;
@@ -32,6 +34,7 @@ export class SearchService {
   private logger = new Logger(SearchService.name);
   private enabled: boolean;
   private timer: NodeJS.Timer | null = null;
+  private configCore: SystemConfigCore;
 
   private albumQueue: SyncQueue = {
     upsert: new Set(),
@@ -55,8 +58,10 @@ export class SearchService {
     @Inject(IJobRepository) private jobRepository: IJobRepository,
     @Inject(IMachineLearningRepository) private machineLearning: IMachineLearningRepository,
     @Inject(ISearchRepository) private searchRepository: ISearchRepository,
+    @Inject(ISystemConfigRepository) systemConfig: ISystemConfigRepository,
     configService: ConfigService,
   ) {
+    this.configCore = new SystemConfigCore(systemConfig);
     this.enabled = configService.get('TYPESENSE_ENABLED') !== 'false';
     if (this.enabled) {
       this.timer = setInterval(() => this.flush(), 5_000);
@@ -135,7 +140,8 @@ export class SearchService {
     let assets: SearchResult<AssetEntity>;
     switch (strategy) {
       case SearchStrategy.CLIP:
-        const clip = await this.machineLearning.encodeText(query);
+        const { machineLearning: { clipText } } = await this.configCore.getConfig();
+        const clip = await this.machineLearning.encodeText({ text: query }, clipText);
         assets = await this.searchRepository.vectorSearch(clip, filters);
         break;
       case SearchStrategy.TEXT:

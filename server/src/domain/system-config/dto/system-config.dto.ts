@@ -6,6 +6,7 @@ import { SystemConfigJobDto } from './system-config-job.dto';
 import { SystemConfigOAuthDto } from './system-config-oauth.dto';
 import { SystemConfigPasswordLoginDto } from './system-config-password-login.dto';
 import { SystemConfigStorageTemplateDto } from './system-config-storage-template.dto';
+import { SystemConfigMachineLearningDto } from './system-config-machine-learning.dto';
 
 export class SystemConfigDto {
   @Type(() => SystemConfigFFmpegDto)
@@ -17,6 +18,11 @@ export class SystemConfigDto {
   @ValidateNested()
   @IsObject()
   oauth!: SystemConfigOAuthDto;
+
+  @Type(() => SystemConfigMachineLearningDto)
+  @ValidateNested()
+  @IsObject()
+  machineLearning!: SystemConfigMachineLearningDto;
 
   @Type(() => SystemConfigPasswordLoginDto)
   @ValidateNested()

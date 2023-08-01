@@ -42,6 +42,22 @@ const updatedConfig = Object.freeze<SystemConfig>({
     twoPass: false,
     transcode: TranscodePolicy.REQUIRED,
   },
+  machine_learning: {
+    classification: {
+      modelName: "microsoft/resnet50",
+      minScore: 0.9,
+    },
+    clipVision: {
+      modelName: "clip-ViT-B-32",
+    },
+    clipText: {
+      modelName: "clip-ViT-B-32",
+    },
+    face: {
+      modelName: "buffalo_l",
+      minScore: 0.7,
+    }
+  },
   oauth: {
     autoLaunch: true,
     autoRegister: true,

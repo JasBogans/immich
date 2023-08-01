@@ -84,6 +84,22 @@ export interface SystemConfig {
     transcode: TranscodePolicy;
   };
   job: Record<QueueName, { concurrency: number }>;
+  machineLearning: {
+    classification: {
+      modelName: string;
+      minScore: number;
+    }
+    clipVision: {
+      modelName: string;
+    },
+    clipText: {
+      modelName: string;
+    },
+    facialRecognition: {
+      modelName: string;
+      minScore: number;
+    }
+  }
   oauth: {
     enabled: boolean;
     issuerUrl: string;

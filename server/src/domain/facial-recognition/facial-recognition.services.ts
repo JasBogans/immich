@@ -10,10 +10,13 @@ import { ISearchRepository } from '../search/search.repository';
 import { IMachineLearningRepository } from '../smart-info';
 import { IStorageRepository, StorageCore, StorageFolder } from '../storage';
 import { AssetFaceId, IFaceRepository } from './face.repository';
+import { ISystemConfigRepository } from '../system-config/system-config.repository';
+import { SystemConfigCore } from '../system-config/system-config.core';
 
 export class FacialRecognitionService {
   private logger = new Logger(FacialRecognitionService.name);
   private storageCore = new StorageCore();
+  private configCore: SystemConfigCore;
 
   constructor(
     @Inject(IAssetRepository) private assetRepository: IAssetRepository,
@@ -24,7 +27,10 @@ export class FacialRecognitionService {
     @Inject(IPersonRepository) private personRepository: IPersonRepository,
     @Inject(ISearchRepository) private searchRepository: ISearchRepository,
     @Inject(IStorageRepository) private storageRepository: IStorageRepository,
-  ) {}
+    @Inject(ISystemConfigRepository) systemConfig: ISystemConfigRepository,
+  ) {
+    this.configCore = new SystemConfigCore(systemConfig);
+  }
 
   async handleQueueRecognizeFaces({ force }: IBaseJob) {
     const assetPagination = usePagination(JOBS_ASSET_PAGINATION_SIZE, (pagination) => {
@@ -54,7 +60,8 @@ export class FacialRecognitionService {
       return false;
     }
 
-    const faces = await this.machineLearning.detectFaces({ imagePath: asset.resizePath });
+    const { machineLearning: { facialRecognition } } = await this.configCore.getConfig();
+    const faces = await this.machineLearning.detectFaces({ imagePath: asset.resizePath }, facialRecognition);
 
     this.logger.debug(`${faces.length} faces detected in ${asset.resizePath}`);
     this.logger.verbose(faces.map((face) => ({ ...face, embedding: `float[${face.embedding.length}]` })));

@@ -5,17 +5,23 @@ import { usePagination } from '../domain.util';
 import { IBaseJob, IEntityJob, IJobRepository, JobName, JOBS_ASSET_PAGINATION_SIZE } from '../job';
 import { IMachineLearningRepository } from './machine-learning.interface';
 import { ISmartInfoRepository } from './smart-info.repository';
+import { SystemConfigCore } from '../system-config/system-config.core';
+import { ISystemConfigRepository } from '../system-config/system-config.repository';
 
 @Injectable()
 export class SmartInfoService {
   private logger = new Logger(SmartInfoService.name);
+  private configCore: SystemConfigCore;
 
   constructor(
     @Inject(IAssetRepository) private assetRepository: IAssetRepository,
     @Inject(IJobRepository) private jobRepository: IJobRepository,
     @Inject(ISmartInfoRepository) private repository: ISmartInfoRepository,
     @Inject(IMachineLearningRepository) private machineLearning: IMachineLearningRepository,
-  ) {}
+    @Inject(ISystemConfigRepository) systemConfig: ISystemConfigRepository,
+  ) {
+    this.configCore = new SystemConfigCore(systemConfig);
+  }
 
   async handleQueueObjectTagging({ force }: IBaseJob) {
     const assetPagination = usePagination(JOBS_ASSET_PAGINATION_SIZE, (pagination) => {
@@ -40,7 +46,8 @@ export class SmartInfoService {
       return false;
     }
 
-    const tags = await this.machineLearning.classifyImage({ imagePath: asset.resizePath });
+    const { machineLearning: { classification } } = await this.configCore.getConfig();
+    const tags = await this.machineLearning.classifyImage({ imagePath: asset.resizePath }, classification);
     await this.repository.upsert({ assetId: asset.id, tags });
 
     return true;
@@ -69,7 +76,8 @@ export class SmartInfoService {
       return false;
     }
 
-    const clipEmbedding = await this.machineLearning.encodeImage({ imagePath: asset.resizePath });
+    const { machineLearning: { clipVision } } = await this.configCore.getConfig();
+    const clipEmbedding = await this.machineLearning.encodeImage({ imagePath: asset.resizePath }, clipVision);
     await this.repository.upsert({ assetId: asset.id, clipEmbedding: clipEmbedding });
 
     return true;
