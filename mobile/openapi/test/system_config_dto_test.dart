@@ -26,6 +26,11 @@ void main() {
       // TODO
     });
 
+    // SystemConfigMachineLearningDto machineLearning
+    test('to test the property `machineLearning`', () async {
+      // TODO
+    });
+
     // SystemConfigPasswordLoginDto passwordLogin
     test('to test the property `passwordLogin`', () async {
       // TODO

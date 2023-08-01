@@ -824,6 +824,32 @@ export type BulkIdResponseDtoErrorEnum = typeof BulkIdResponseDtoErrorEnum[keyof
 /**
  * 
  * @export
+ * @interface CLIPTextConfig
+ */
+export interface CLIPTextConfig {
+    /**
+     * 
+     * @type {string}
+     * @memberof CLIPTextConfig
+     */
+    'modelName': string;
+}
+/**
+ * 
+ * @export
+ * @interface CLIPVisionConfig
+ */
+export interface CLIPVisionConfig {
+    /**
+     * 
+     * @type {string}
+     * @memberof CLIPVisionConfig
+     */
+    'modelName': string;
+}
+/**
+ * 
+ * @export
  * @interface ChangePasswordDto
  */
 export interface ChangePasswordDto {
@@ -909,6 +935,25 @@ export interface CheckExistingAssetsResponseDto {
      * @memberof CheckExistingAssetsResponseDto
      */
     'existingIds': Array<string>;
+}
+/**
+ * 
+ * @export
+ * @interface ClassificationConfig
+ */
+export interface ClassificationConfig {
+    /**
+     * 
+     * @type {string}
+     * @memberof ClassificationConfig
+     */
+    'modelName': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ClassificationConfig
+     */
+    'minScore': number;
 }
 /**
  * 
@@ -1310,6 +1355,25 @@ export interface ExifResponseDto {
      * @memberof ExifResponseDto
      */
     'projectionType'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface FacialRecognitionConfig
+ */
+export interface FacialRecognitionConfig {
+    /**
+     * 
+     * @type {string}
+     * @memberof FacialRecognitionConfig
+     */
+    'modelName': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FacialRecognitionConfig
+     */
+    'minScore': number;
 }
 /**
  * 
@@ -2525,6 +2589,12 @@ export interface SystemConfigDto {
     'oauth': SystemConfigOAuthDto;
     /**
      * 
+     * @type {SystemConfigMachineLearningDto}
+     * @memberof SystemConfigDto
+     */
+    'machineLearning': SystemConfigMachineLearningDto;
+    /**
+     * 
      * @type {SystemConfigPasswordLoginDto}
      * @memberof SystemConfigDto
      */
@@ -2671,6 +2741,37 @@ export interface SystemConfigJobDto {
      * @memberof SystemConfigJobDto
      */
     'sidecar': JobSettingsDto;
+}
+/**
+ * 
+ * @export
+ * @interface SystemConfigMachineLearningDto
+ */
+export interface SystemConfigMachineLearningDto {
+    /**
+     * 
+     * @type {ClassificationConfig}
+     * @memberof SystemConfigMachineLearningDto
+     */
+    'classification': ClassificationConfig;
+    /**
+     * 
+     * @type {CLIPVisionConfig}
+     * @memberof SystemConfigMachineLearningDto
+     */
+    'clipVision': CLIPVisionConfig;
+    /**
+     * 
+     * @type {CLIPTextConfig}
+     * @memberof SystemConfigMachineLearningDto
+     */
+    'clipText': CLIPTextConfig;
+    /**
+     * 
+     * @type {FacialRecognitionConfig}
+     * @memberof SystemConfigMachineLearningDto
+     */
+    'facialRecognition': FacialRecognitionConfig;
 }
 /**
  * 

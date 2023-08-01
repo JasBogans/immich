@@ -15,6 +15,7 @@ class SystemConfigDto {
   SystemConfigDto({
     required this.ffmpeg,
     required this.oauth,
+    required this.machineLearning,
     required this.passwordLogin,
     required this.storageTemplate,
     required this.job,
@@ -23,6 +24,8 @@ class SystemConfigDto {
   SystemConfigFFmpegDto ffmpeg;
 
   SystemConfigOAuthDto oauth;
+
+  SystemConfigMachineLearningDto machineLearning;
 
   SystemConfigPasswordLoginDto passwordLogin;
 
@@ -34,6 +37,7 @@ class SystemConfigDto {
   bool operator ==(Object other) => identical(this, other) || other is SystemConfigDto &&
      other.ffmpeg == ffmpeg &&
      other.oauth == oauth &&
+     other.machineLearning == machineLearning &&
      other.passwordLogin == passwordLogin &&
      other.storageTemplate == storageTemplate &&
      other.job == job;
@@ -43,17 +47,19 @@ class SystemConfigDto {
     // ignore: unnecessary_parenthesis
     (ffmpeg.hashCode) +
     (oauth.hashCode) +
+    (machineLearning.hashCode) +
     (passwordLogin.hashCode) +
     (storageTemplate.hashCode) +
     (job.hashCode);
 
   @override
-  String toString() => 'SystemConfigDto[ffmpeg=$ffmpeg, oauth=$oauth, passwordLogin=$passwordLogin, storageTemplate=$storageTemplate, job=$job]';
+  String toString() => 'SystemConfigDto[ffmpeg=$ffmpeg, oauth=$oauth, machineLearning=$machineLearning, passwordLogin=$passwordLogin, storageTemplate=$storageTemplate, job=$job]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'ffmpeg'] = this.ffmpeg;
       json[r'oauth'] = this.oauth;
+      json[r'machineLearning'] = this.machineLearning;
       json[r'passwordLogin'] = this.passwordLogin;
       json[r'storageTemplate'] = this.storageTemplate;
       json[r'job'] = this.job;
@@ -70,6 +76,7 @@ class SystemConfigDto {
       return SystemConfigDto(
         ffmpeg: SystemConfigFFmpegDto.fromJson(json[r'ffmpeg'])!,
         oauth: SystemConfigOAuthDto.fromJson(json[r'oauth'])!,
+        machineLearning: SystemConfigMachineLearningDto.fromJson(json[r'machineLearning'])!,
         passwordLogin: SystemConfigPasswordLoginDto.fromJson(json[r'passwordLogin'])!,
         storageTemplate: SystemConfigStorageTemplateDto.fromJson(json[r'storageTemplate'])!,
         job: SystemConfigJobDto.fromJson(json[r'job'])!,
@@ -122,6 +129,7 @@ class SystemConfigDto {
   static const requiredKeys = <String>{
     'ffmpeg',
     'oauth',
+    'machineLearning',
     'passwordLogin',
     'storageTemplate',
     'job',

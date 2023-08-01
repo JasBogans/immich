@@ -233,6 +233,10 @@ class ApiClient {
           return AuthDeviceResponseDto.fromJson(value);
         case 'BulkIdResponseDto':
           return BulkIdResponseDto.fromJson(value);
+        case 'CLIPTextConfig':
+          return CLIPTextConfig.fromJson(value);
+        case 'CLIPVisionConfig':
+          return CLIPVisionConfig.fromJson(value);
         case 'ChangePasswordDto':
           return ChangePasswordDto.fromJson(value);
         case 'CheckDuplicateAssetDto':
@@ -243,6 +247,8 @@ class ApiClient {
           return CheckExistingAssetsDto.fromJson(value);
         case 'CheckExistingAssetsResponseDto':
           return CheckExistingAssetsResponseDto.fromJson(value);
+        case 'ClassificationConfig':
+          return ClassificationConfig.fromJson(value);
         case 'CreateAlbumDto':
           return CreateAlbumDto.fromJson(value);
         case 'CreateProfileImageResponseDto':
@@ -267,6 +273,8 @@ class ApiClient {
           return DownloadResponseDto.fromJson(value);
         case 'ExifResponseDto':
           return ExifResponseDto.fromJson(value);
+        case 'FacialRecognitionConfig':
+          return FacialRecognitionConfig.fromJson(value);
         case 'GetAssetByTimeBucketDto':
           return GetAssetByTimeBucketDto.fromJson(value);
         case 'GetAssetCountByTimeBucketDto':
@@ -363,6 +371,8 @@ class ApiClient {
           return SystemConfigFFmpegDto.fromJson(value);
         case 'SystemConfigJobDto':
           return SystemConfigJobDto.fromJson(value);
+        case 'SystemConfigMachineLearningDto':
+          return SystemConfigMachineLearningDto.fromJson(value);
         case 'SystemConfigOAuthDto':
           return SystemConfigOAuthDto.fromJson(value);
         case 'SystemConfigPasswordLoginDto':

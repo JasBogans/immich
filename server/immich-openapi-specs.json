@@ -5093,6 +5093,28 @@
           "success"
         ]
       },
+      "CLIPTextConfig": {
+        "type": "object",
+        "properties": {
+          "modelName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "modelName"
+        ]
+      },
+      "CLIPVisionConfig": {
+        "type": "object",
+        "properties": {
+          "modelName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "modelName"
+        ]
+      },
       "ChangePasswordDto": {
         "type": "object",
         "properties": {
@@ -5169,6 +5191,21 @@
         },
         "required": [
           "existingIds"
+        ]
+      },
+      "ClassificationConfig": {
+        "type": "object",
+        "properties": {
+          "modelName": {
+            "type": "string"
+          },
+          "minScore": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "modelName",
+          "minScore"
         ]
       },
       "CreateAlbumDto": {
@@ -5568,6 +5605,21 @@
             "default": null
           }
         }
+      },
+      "FacialRecognitionConfig": {
+        "type": "object",
+        "properties": {
+          "modelName": {
+            "type": "string"
+          },
+          "minScore": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "modelName",
+          "minScore"
+        ]
       },
       "GetAssetByTimeBucketDto": {
         "type": "object",
@@ -6557,6 +6609,9 @@
           "oauth": {
             "$ref": "#/components/schemas/SystemConfigOAuthDto"
           },
+          "machineLearning": {
+            "$ref": "#/components/schemas/SystemConfigMachineLearningDto"
+          },
           "passwordLogin": {
             "$ref": "#/components/schemas/SystemConfigPasswordLoginDto"
           },
@@ -6570,6 +6625,7 @@
         "required": [
           "ffmpeg",
           "oauth",
+          "machineLearning",
           "passwordLogin",
           "storageTemplate",
           "job"
@@ -6663,6 +6719,29 @@
           "search",
           "recognizeFaces",
           "sidecar"
+        ]
+      },
+      "SystemConfigMachineLearningDto": {
+        "type": "object",
+        "properties": {
+          "classification": {
+            "$ref": "#/components/schemas/ClassificationConfig"
+          },
+          "clipVision": {
+            "$ref": "#/components/schemas/CLIPVisionConfig"
+          },
+          "clipText": {
+            "$ref": "#/components/schemas/CLIPTextConfig"
+          },
+          "facialRecognition": {
+            "$ref": "#/components/schemas/FacialRecognitionConfig"
+          }
+        },
+        "required": [
+          "classification",
+          "clipVision",
+          "clipText",
+          "facialRecognition"
         ]
       },
       "SystemConfigOAuthDto": {
