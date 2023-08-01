@@ -16,22 +16,22 @@ void main() {
   // final instance = SystemConfigMachineLearningDto();
 
   group('test SystemConfigMachineLearningDto', () {
-    // ClassificationConfig classification
+    // ModelConfig classification
     test('to test the property `classification`', () async {
       // TODO
     });
 
-    // CLIPVisionConfig clipVision
+    // ModelConfig clipVision
     test('to test the property `clipVision`', () async {
       // TODO
     });
 
-    // CLIPTextConfig clipText
+    // ModelConfig clipText
     test('to test the property `clipText`', () async {
       // TODO
     });
 
-    // FacialRecognitionConfig facialRecognition
+    // ModelConfig facialRecognition
     test('to test the property `facialRecognition`', () async {
       // TODO
     });

@@ -5093,28 +5093,6 @@
           "success"
         ]
       },
-      "CLIPTextConfig": {
-        "type": "object",
-        "properties": {
-          "modelName": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "modelName"
-        ]
-      },
-      "CLIPVisionConfig": {
-        "type": "object",
-        "properties": {
-          "modelName": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "modelName"
-        ]
-      },
       "ChangePasswordDto": {
         "type": "object",
         "properties": {
@@ -5191,21 +5169,6 @@
         },
         "required": [
           "existingIds"
-        ]
-      },
-      "ClassificationConfig": {
-        "type": "object",
-        "properties": {
-          "modelName": {
-            "type": "string"
-          },
-          "minScore": {
-            "type": "integer"
-          }
-        },
-        "required": [
-          "modelName",
-          "minScore"
         ]
       },
       "CreateAlbumDto": {
@@ -5606,21 +5569,6 @@
           }
         }
       },
-      "FacialRecognitionConfig": {
-        "type": "object",
-        "properties": {
-          "modelName": {
-            "type": "string"
-          },
-          "minScore": {
-            "type": "integer"
-          }
-        },
-        "required": [
-          "modelName",
-          "minScore"
-        ]
-      },
       "GetAssetByTimeBucketDto": {
         "type": "object",
         "properties": {
@@ -5944,6 +5892,32 @@
         },
         "required": [
           "ids"
+        ]
+      },
+      "ModelConfig": {
+        "type": "object",
+        "properties": {
+          "modelName": {
+            "type": "string"
+          },
+          "modelType": {
+            "$ref": "#/components/schemas/ModelType"
+          },
+          "minScore": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "modelName",
+          "modelType"
+        ]
+      },
+      "ModelType": {
+        "type": "string",
+        "enum": [
+          "image-classification",
+          "facial-recognition",
+          "clip"
         ]
       },
       "OAuthCallbackDto": {
@@ -6725,16 +6699,16 @@
         "type": "object",
         "properties": {
           "classification": {
-            "$ref": "#/components/schemas/ClassificationConfig"
+            "$ref": "#/components/schemas/ModelConfig"
           },
           "clipVision": {
-            "$ref": "#/components/schemas/CLIPVisionConfig"
+            "$ref": "#/components/schemas/ModelConfig"
           },
           "clipText": {
-            "$ref": "#/components/schemas/CLIPTextConfig"
+            "$ref": "#/components/schemas/ModelConfig"
           },
           "facialRecognition": {
-            "$ref": "#/components/schemas/FacialRecognitionConfig"
+            "$ref": "#/components/schemas/ModelConfig"
           }
         },
         "required": [

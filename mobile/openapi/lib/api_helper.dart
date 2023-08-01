@@ -70,6 +70,9 @@ String parameterToString(dynamic value) {
   if (value is JobName) {
     return JobNameTypeTransformer().encode(value).toString();
   }
+  if (value is ModelType) {
+    return ModelTypeTypeTransformer().encode(value).toString();
+  }
   if (value is SharedLinkType) {
     return SharedLinkTypeTypeTransformer().encode(value).toString();
   }

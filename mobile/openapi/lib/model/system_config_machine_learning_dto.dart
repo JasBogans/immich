@@ -19,13 +19,13 @@ class SystemConfigMachineLearningDto {
     required this.facialRecognition,
   });
 
-  ClassificationConfig classification;
+  ModelConfig classification;
 
-  CLIPVisionConfig clipVision;
+  ModelConfig clipVision;
 
-  CLIPTextConfig clipText;
+  ModelConfig clipText;
 
-  FacialRecognitionConfig facialRecognition;
+  ModelConfig facialRecognition;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is SystemConfigMachineLearningDto &&
@@ -62,10 +62,10 @@ class SystemConfigMachineLearningDto {
       final json = value.cast<String, dynamic>();
 
       return SystemConfigMachineLearningDto(
-        classification: ClassificationConfig.fromJson(json[r'classification'])!,
-        clipVision: CLIPVisionConfig.fromJson(json[r'clipVision'])!,
-        clipText: CLIPTextConfig.fromJson(json[r'clipText'])!,
-        facialRecognition: FacialRecognitionConfig.fromJson(json[r'facialRecognition'])!,
+        classification: ModelConfig.fromJson(json[r'classification'])!,
+        clipVision: ModelConfig.fromJson(json[r'clipVision'])!,
+        clipText: ModelConfig.fromJson(json[r'clipText'])!,
+        facialRecognition: ModelConfig.fromJson(json[r'facialRecognition'])!,
       );
     }
     return null;

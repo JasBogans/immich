@@ -8,10 +8,10 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**classification** | [**ClassificationConfig**](ClassificationConfig.md) |  | 
-**clipVision** | [**CLIPVisionConfig**](CLIPVisionConfig.md) |  | 
-**clipText** | [**CLIPTextConfig**](CLIPTextConfig.md) |  | 
-**facialRecognition** | [**FacialRecognitionConfig**](FacialRecognitionConfig.md) |  | 
+**classification** | [**ModelConfig**](ModelConfig.md) |  | 
+**clipVision** | [**ModelConfig**](ModelConfig.md) |  | 
+**clipText** | [**ModelConfig**](ModelConfig.md) |  | 
+**facialRecognition** | [**ModelConfig**](ModelConfig.md) |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

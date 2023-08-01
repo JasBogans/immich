@@ -824,32 +824,6 @@ export type BulkIdResponseDtoErrorEnum = typeof BulkIdResponseDtoErrorEnum[keyof
 /**
  * 
  * @export
- * @interface CLIPTextConfig
- */
-export interface CLIPTextConfig {
-    /**
-     * 
-     * @type {string}
-     * @memberof CLIPTextConfig
-     */
-    'modelName': string;
-}
-/**
- * 
- * @export
- * @interface CLIPVisionConfig
- */
-export interface CLIPVisionConfig {
-    /**
-     * 
-     * @type {string}
-     * @memberof CLIPVisionConfig
-     */
-    'modelName': string;
-}
-/**
- * 
- * @export
  * @interface ChangePasswordDto
  */
 export interface ChangePasswordDto {
@@ -935,25 +909,6 @@ export interface CheckExistingAssetsResponseDto {
      * @memberof CheckExistingAssetsResponseDto
      */
     'existingIds': Array<string>;
-}
-/**
- * 
- * @export
- * @interface ClassificationConfig
- */
-export interface ClassificationConfig {
-    /**
-     * 
-     * @type {string}
-     * @memberof ClassificationConfig
-     */
-    'modelName': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ClassificationConfig
-     */
-    'minScore': number;
 }
 /**
  * 
@@ -1355,25 +1310,6 @@ export interface ExifResponseDto {
      * @memberof ExifResponseDto
      */
     'projectionType'?: string | null;
-}
-/**
- * 
- * @export
- * @interface FacialRecognitionConfig
- */
-export interface FacialRecognitionConfig {
-    /**
-     * 
-     * @type {string}
-     * @memberof FacialRecognitionConfig
-     */
-    'modelName': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof FacialRecognitionConfig
-     */
-    'minScore': number;
 }
 /**
  * 
@@ -1784,6 +1720,48 @@ export interface MergePersonDto {
      */
     'ids': Array<string>;
 }
+/**
+ * 
+ * @export
+ * @interface ModelConfig
+ */
+export interface ModelConfig {
+    /**
+     * 
+     * @type {string}
+     * @memberof ModelConfig
+     */
+    'modelName': string;
+    /**
+     * 
+     * @type {ModelType}
+     * @memberof ModelConfig
+     */
+    'modelType': ModelType;
+    /**
+     * 
+     * @type {number}
+     * @memberof ModelConfig
+     */
+    'minScore'?: number;
+}
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const ModelType = {
+    ImageClassification: 'image-classification',
+    FacialRecognition: 'facial-recognition',
+    Clip: 'clip'
+} as const;
+
+export type ModelType = typeof ModelType[keyof typeof ModelType];
+
+
 /**
  * 
  * @export
@@ -2750,28 +2728,28 @@ export interface SystemConfigJobDto {
 export interface SystemConfigMachineLearningDto {
     /**
      * 
-     * @type {ClassificationConfig}
+     * @type {ModelConfig}
      * @memberof SystemConfigMachineLearningDto
      */
-    'classification': ClassificationConfig;
+    'classification': ModelConfig;
     /**
      * 
-     * @type {CLIPVisionConfig}
+     * @type {ModelConfig}
      * @memberof SystemConfigMachineLearningDto
      */
-    'clipVision': CLIPVisionConfig;
+    'clipVision': ModelConfig;
     /**
      * 
-     * @type {CLIPTextConfig}
+     * @type {ModelConfig}
      * @memberof SystemConfigMachineLearningDto
      */
-    'clipText': CLIPTextConfig;
+    'clipText': ModelConfig;
     /**
      * 
-     * @type {FacialRecognitionConfig}
+     * @type {ModelConfig}
      * @memberof SystemConfigMachineLearningDto
      */
-    'facialRecognition': FacialRecognitionConfig;
+    'facialRecognition': ModelConfig;
 }
 /**
  * 

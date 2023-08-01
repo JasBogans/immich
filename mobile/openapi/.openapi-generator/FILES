@@ -33,14 +33,11 @@ doc/AudioCodec.md
 doc/AuthDeviceResponseDto.md
 doc/AuthenticationApi.md
 doc/BulkIdResponseDto.md
-doc/CLIPTextConfig.md
-doc/CLIPVisionConfig.md
 doc/ChangePasswordDto.md
 doc/CheckDuplicateAssetDto.md
 doc/CheckDuplicateAssetResponseDto.md
 doc/CheckExistingAssetsDto.md
 doc/CheckExistingAssetsResponseDto.md
-doc/ClassificationConfig.md
 doc/CreateAlbumDto.md
 doc/CreateProfileImageResponseDto.md
 doc/CreateTagDto.md
@@ -53,7 +50,6 @@ doc/DeleteAssetStatus.md
 doc/DownloadArchiveInfo.md
 doc/DownloadResponseDto.md
 doc/ExifResponseDto.md
-doc/FacialRecognitionConfig.md
 doc/GetAssetByTimeBucketDto.md
 doc/GetAssetCountByTimeBucketDto.md
 doc/ImportAssetDto.md
@@ -70,6 +66,8 @@ doc/LogoutResponseDto.md
 doc/MapMarkerResponseDto.md
 doc/MemoryLaneResponseDto.md
 doc/MergePersonDto.md
+doc/ModelConfig.md
+doc/ModelType.md
 doc/OAuthApi.md
 doc/OAuthCallbackDto.md
 doc/OAuthConfigDto.md
@@ -186,9 +184,6 @@ lib/model/check_duplicate_asset_dto.dart
 lib/model/check_duplicate_asset_response_dto.dart
 lib/model/check_existing_assets_dto.dart
 lib/model/check_existing_assets_response_dto.dart
-lib/model/classification_config.dart
-lib/model/clip_text_config.dart
-lib/model/clip_vision_config.dart
 lib/model/create_album_dto.dart
 lib/model/create_profile_image_response_dto.dart
 lib/model/create_tag_dto.dart
@@ -201,7 +196,6 @@ lib/model/delete_asset_status.dart
 lib/model/download_archive_info.dart
 lib/model/download_response_dto.dart
 lib/model/exif_response_dto.dart
-lib/model/facial_recognition_config.dart
 lib/model/get_asset_by_time_bucket_dto.dart
 lib/model/get_asset_count_by_time_bucket_dto.dart
 lib/model/import_asset_dto.dart
@@ -217,6 +211,8 @@ lib/model/logout_response_dto.dart
 lib/model/map_marker_response_dto.dart
 lib/model/memory_lane_response_dto.dart
 lib/model/merge_person_dto.dart
+lib/model/model_config.dart
+lib/model/model_type.dart
 lib/model/o_auth_callback_dto.dart
 lib/model/o_auth_config_dto.dart
 lib/model/o_auth_config_response_dto.dart
@@ -305,9 +301,6 @@ test/check_duplicate_asset_dto_test.dart
 test/check_duplicate_asset_response_dto_test.dart
 test/check_existing_assets_dto_test.dart
 test/check_existing_assets_response_dto_test.dart
-test/classification_config_test.dart
-test/clip_text_config_test.dart
-test/clip_vision_config_test.dart
 test/create_album_dto_test.dart
 test/create_profile_image_response_dto_test.dart
 test/create_tag_dto_test.dart
@@ -320,7 +313,6 @@ test/delete_asset_status_test.dart
 test/download_archive_info_test.dart
 test/download_response_dto_test.dart
 test/exif_response_dto_test.dart
-test/facial_recognition_config_test.dart
 test/get_asset_by_time_bucket_dto_test.dart
 test/get_asset_count_by_time_bucket_dto_test.dart
 test/import_asset_dto_test.dart
@@ -337,6 +329,8 @@ test/logout_response_dto_test.dart
 test/map_marker_response_dto_test.dart
 test/memory_lane_response_dto_test.dart
 test/merge_person_dto_test.dart
+test/model_config_test.dart
+test/model_type_test.dart
 test/o_auth_api_test.dart
 test/o_auth_callback_dto_test.dart
 test/o_auth_config_dto_test.dart
