@@ -5,12 +5,14 @@ import {
   newJobRepositoryMock,
   newMachineLearningRepositoryMock,
   newSmartInfoRepositoryMock,
+  newSystemConfigRepositoryMock
 } from '@test';
 import { IAssetRepository, WithoutProperty } from '../asset';
 import { IJobRepository, JobName } from '../job';
 import { IMachineLearningRepository } from './machine-learning.interface';
 import { ISmartInfoRepository } from './smart-info.repository';
 import { SmartInfoService } from './smart-info.service';
+import { ISystemConfigRepository } from '..';
 
 const asset = {
   id: 'asset-1',
@@ -23,13 +25,16 @@ describe(SmartInfoService.name, () => {
   let jobMock: jest.Mocked<IJobRepository>;
   let smartMock: jest.Mocked<ISmartInfoRepository>;
   let machineMock: jest.Mocked<IMachineLearningRepository>;
+  let configMock: jest.Mocked<ISystemConfigRepository>;
 
   beforeEach(async () => {
     assetMock = newAssetRepositoryMock();
     smartMock = newSmartInfoRepositoryMock();
     jobMock = newJobRepositoryMock();
     machineMock = newMachineLearningRepositoryMock();
-    sut = new SmartInfoService(assetMock, jobMock, smartMock, machineMock);
+    configMock = newSystemConfigRepositoryMock();
+
+    sut = new SmartInfoService(assetMock, jobMock, smartMock, machineMock, configMock);
 
     assetMock.getByIds.mockResolvedValue([asset]);
   });

@@ -1,4 +1,5 @@
 import { QueueName } from '@app/domain/job/job.constants';
+import { ModelType } from '@app/domain/system-config/dto/system-config-machine-learning.dto';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('system_config')
@@ -87,17 +88,21 @@ export interface SystemConfig {
   machineLearning: {
     classification: {
       modelName: string;
-      minScore: number;
+      modelType: ModelType;
+      minScore?: number;
     }
     clipVision: {
       modelName: string;
+      modelType: ModelType;
     },
     clipText: {
       modelName: string;
+      modelType: ModelType;
     },
     facialRecognition: {
       modelName: string;
-      minScore: number;
+      modelType: ModelType;
+      minScore?: number;
     }
   }
   oauth: {

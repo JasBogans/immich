@@ -1,44 +1,40 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsOptional, IsEnum } from 'class-validator';
+
+
+export enum ModelType {
+  IMAGE_CLASSIFICATION = 'image-classification',
+  FACIAL_RECOGNITION = 'facial-recognition',
+  CLIP = 'clip',
+}
 
 
 export class ModelConfig {
   @IsString()
   @ApiProperty({ type: 'string' })
   modelName!: string;
-}
 
+  @IsEnum(ModelType)
+  @ApiProperty({ type: 'string', enum: ModelType, enumName: 'ModelType' })
+  modelType!: ModelType;
 
-export class ClassificationConfig extends ModelConfig {
   @IsNumber()
+  @IsOptional()
   @ApiProperty({ type: 'integer' })
-  minScore!: number;
-}
-
-
-export class CLIPVisionConfig extends ModelConfig { }
-
-
-export class CLIPTextConfig extends ModelConfig { }
-
-
-export class FacialRecognitionConfig extends ModelConfig {
-  @IsNumber()
-  @ApiProperty({ type: 'integer' })
-  minScore!: number;
+  minScore?: number;
 }
 
 
 export class SystemConfigMachineLearningDto {
-  @ApiProperty({ type: ClassificationConfig })
-  classification!: ClassificationConfig;
+  @ApiProperty({ type: ModelConfig })
+  classification!: ModelConfig;
 
-  @ApiProperty({ type: CLIPVisionConfig })
-  clipVision!: CLIPVisionConfig;
+  @ApiProperty({ type: ModelConfig })
+  clipVision!: ModelConfig;
 
-  @ApiProperty({ type: CLIPTextConfig })
-  clipText!: CLIPTextConfig;
+  @ApiProperty({ type: ModelConfig })
+  clipText!: ModelConfig;
 
-  @ApiProperty({ type: FacialRecognitionConfig })
-  facialRecognition!: FacialRecognitionConfig;
+  @ApiProperty({ type: ModelConfig })
+  facialRecognition!: ModelConfig;
 }
