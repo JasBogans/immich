@@ -8,7 +8,7 @@ import {
   VideoStreamInfo,
 } from './media.repository';
 class BaseConfig implements VideoCodecSWConfig {
-  constructor(protected config: SystemConfigFFmpegDto) { }
+  constructor(protected config: SystemConfigFFmpegDto) {}
 
   getOptions(stream: VideoStreamInfo) {
     const options = {
@@ -463,7 +463,7 @@ export class VAAPIConfig extends BaseHWConfig {
     const options = [];
     if (this.config.targetVideoCodec === VideoCodec.VP9) {
       // seems to be needed for VP9 outputs to look correct
-      options.push('-bsf:v vp9_raw_reorder,vp9_superframe')
+      options.push('-bsf:v vp9_raw_reorder,vp9_superframe');
     }
 
     // VAAPI doesn't allow setting both quality and max bitrate
