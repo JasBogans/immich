@@ -27,6 +27,7 @@ export const defaults = Object.freeze<SystemConfig>({
     targetAudioCodec: AudioCodec.AAC,
     targetResolution: '720',
     maxBitrate: '0',
+    bframes: 3,
     twoPass: false,
     transcode: TranscodePolicy.REQUIRED,
     tonemap: ToneMapping.HABLE,
@@ -80,7 +81,7 @@ export class SystemConfigCore {
 
   public config$ = singleton;
 
-  constructor(private repository: ISystemConfigRepository) {}
+  constructor(private repository: ISystemConfigRepository) { }
 
   public getDefaults(): SystemConfig {
     return defaults;
