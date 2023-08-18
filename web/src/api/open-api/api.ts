@@ -2620,6 +2620,12 @@ export interface SystemConfigFFmpegDto {
      * @type {number}
      * @memberof SystemConfigFFmpegDto
      */
+    'bframes': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SystemConfigFFmpegDto
+     */
     'crf': number;
     /**
      * 
