@@ -174,6 +174,14 @@
             isEdited={!(ffmpegConfig.threads == savedConfig.threads)}
           />
 
+          <SettingInputField
+            inputType={SettingInputFieldType.NUMBER}
+            label="B-FRAMES"
+            desc="The max number of B-frames to use. Higher values improve compression efficiency, but slow down encoding. May not be compatible with hardware acceleration on older devices. 0 disables B-frames, while -1 uses the encoder default."
+            bind:value={ffmpegConfig.bframes}
+            isEdited={!(ffmpegConfig.bframes == savedConfig.bframes)}
+          />
+
           <SettingSelect
             label="TRANSCODE POLICY"
             desc="Policy for when a video should be transcoded."
