@@ -9,7 +9,7 @@ import {
 } from './media.repository';
 class BaseConfig implements VideoCodecSWConfig {
   presets = ['veryslow', 'slower', 'slow', 'medium', 'fast', 'faster', 'veryfast', 'superfast', 'ultrafast'];
-  constructor(protected config: SystemConfigFFmpegDto) { }
+  constructor(protected config: SystemConfigFFmpegDto) {}
 
   getOptions(stream: VideoStreamInfo) {
     const options = {
@@ -185,7 +185,7 @@ class BaseConfig implements VideoCodecSWConfig {
   }
 
   getVideoEncoder() {
-    return this.config.targetVideoCodec;
+    return this.config.targetVideoCodec as string;
   }
 
   getAudioEncoder() {
@@ -232,7 +232,7 @@ export class BaseHWConfig extends BaseConfig implements VideoCodecHWConfig {
       });
   }
 
-  getVideoCodec() {
+  getVideoEncoder() {
     return `${this.config.targetVideoCodec}_${this.config.accel}`;
   }
 

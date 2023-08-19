@@ -83,7 +83,7 @@ export class SystemConfigCore {
 
   public config$ = singleton;
 
-  constructor(private repository: ISystemConfigRepository) { }
+  constructor(private repository: ISystemConfigRepository) {}
 
   public getDefaults(): SystemConfig {
     return defaults;
