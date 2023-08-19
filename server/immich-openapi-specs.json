@@ -6818,11 +6818,17 @@
           "crf": {
             "type": "integer"
           },
+          "gopSize": {
+            "type": "integer"
+          },
           "maxBitrate": {
             "type": "string"
           },
           "preset": {
             "type": "string"
+          },
+          "refs": {
+            "type": "integer"
           },
           "targetAudioCodec": {
             "$ref": "#/components/schemas/AudioCodec"
@@ -6852,6 +6858,8 @@
           "targetVideoCodec",
           "targetAudioCodec",
           "bframes",
+          "refs",
+          "gopSize",
           "transcode",
           "accel",
           "tonemap",
