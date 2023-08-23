@@ -203,10 +203,8 @@ export class LibraryService {
     let doImport = false;
 
     if (job.analyze) {
-      throw new BadRequestException('Asset re-reads are not implemented yet');
-
       // Analyze was requested, re-read from disk
-      // doImport = true;
+      doImport = true;
     }
 
     if (!existingAssetEntity) {
@@ -257,7 +255,7 @@ export class LibraryService {
     } catch (error) {}
 
     const checksum = await this.cryptoRepository.hashFile(job.assetPath);
-    const deviceAssetId = `${basename(job.assetPath)}-${stats.size}`.replace(/\s+/g, '');
+    const deviceAssetId = `${basename(job.assetPath)}`.replace(/\s+/g, '');
 
     // TODO: In wait of refactoring the domain asset service, this function is just manually written like this
     const addedAsset = await this.assetRepository.create({
