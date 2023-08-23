@@ -106,7 +106,7 @@ export class LibraryService {
   }
 
   async handleDeleteLibrary(job: ILibraryJob): Promise<boolean> {
-    const library = await this.libraryRepository.getById(job.libraryId);
+    const library = await this.libraryRepository.getById(job.libraryId, true);
     if (!library) {
       throw new BadRequestException('Library not found');
     }

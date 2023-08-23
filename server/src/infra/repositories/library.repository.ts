@@ -1,6 +1,7 @@
 import { ILibraryRepository, LibraryStatsResponseDto } from '@app/domain';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { IsNull, Not } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { LibraryEntity } from '../entities';
 
@@ -34,11 +35,12 @@ export class LibraryRepository implements ILibraryRepository {
     });
   }
 
-  getById(libraryId: string): Promise<LibraryEntity> {
+  getById(libraryId: string, withDeleted = false): Promise<LibraryEntity> {
     return this.libraryRepository.findOneOrFail({
       where: {
         id: libraryId,
       },
+      withDeleted: withDeleted,
     });
   }
 
@@ -111,14 +113,19 @@ export class LibraryRepository implements ILibraryRepository {
     return results;
   }
 
-  async getAssetIds(libraryId: string): Promise<string[]> {
-    // Return all asset paths for a given library
-    const rawResults = await this.libraryRepository
+  async getAssetIds(libraryId: string, withDeleted = false): Promise<string[]> {
+    let query = await this.libraryRepository
       .createQueryBuilder('library')
       .innerJoinAndSelect('library.assets', 'assets')
       .where('library.id = :id', { id: libraryId })
-      .select('assets.id')
-      .getRawMany();
+      .select('assets.id');
+
+    if (withDeleted) {
+      query = query.withDeleted();
+    }
+
+    // Return all asset paths for a given library
+    const rawResults = await query.getRawMany();
 
     const results: string[] = [];
 
