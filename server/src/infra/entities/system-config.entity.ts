@@ -38,6 +38,12 @@ export enum SystemConfigKey {
   JOB_SIDECAR_CONCURRENCY = 'job.sidecar.concurrency',
   JOB_LIBRARY_CONCURRENCY = 'job.library.concurrency',
 
+  MACHINE_LEARNING_ENABLED = 'machineLearning.enabled',
+  MACHINE_LEARNING_URL = 'machineLearning.url',
+  MACHINE_LEARNING_FACIAL_RECOGNITION_ENABLED = 'machineLearning.facialRecognitionEnabled',
+  MACHINE_LEARNING_TAG_IMAGE_ENABLED = 'machineLearning.tagImageEnabled',
+  MACHINE_LEARNING_CLIP_ENCODE_ENABLED = 'machineLearning.clipEncodeEnabled',
+
   OAUTH_ENABLED = 'oauth.enabled',
   OAUTH_ISSUER_URL = 'oauth.issuerUrl',
   OAUTH_CLIENT_ID = 'oauth.clientId',
@@ -106,6 +112,13 @@ export interface SystemConfig {
     tonemap: ToneMapping;
   };
   job: Record<QueueName, { concurrency: number }>;
+  machineLearning: {
+    enabled: boolean;
+    url: string;
+    clipEncodeEnabled: boolean;
+    facialRecognitionEnabled: boolean;
+    tagImageEnabled: boolean;
+  };
   oauth: {
     enabled: boolean;
     issuerUrl: string;

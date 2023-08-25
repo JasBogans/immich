@@ -87,3 +87,8 @@ export function mapAssetWithoutExif(entity: AssetEntity): AssetResponseDto {
     checksum: entity.checksum?.toString('base64') ?? null,
   };
 }
+
+export class MemoryLaneResponseDto {
+  title!: string;
+  assets!: AssetResponseDto[];
+}
