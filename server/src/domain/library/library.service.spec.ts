@@ -14,7 +14,6 @@ import {
   userStub,
 } from '@test';
 import { Stats } from 'fs';
-import { not } from 'joi';
 import { IAccessRepository } from '../access';
 import { IAssetRepository } from '../asset';
 import { ICryptoRepository } from '../crypto';

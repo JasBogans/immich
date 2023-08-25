@@ -85,7 +85,7 @@ describe.skip('Asset', () => {
     });
 
     it('scans the library', async () => {
-      const assets = await assetService.getAllAssets(adminUser, { withoutThumbs: true });
+      const assets = await assetService.getAllAssets(adminUser, {});
       console.log(assets);
       const jobStatus = await jobService.getAllJobsStatus();
       console.log(jobStatus);
