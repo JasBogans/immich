@@ -6835,6 +6835,9 @@
           "maxBitrate": {
             "type": "string"
           },
+          "npl": {
+            "type": "integer"
+          },
           "preset": {
             "type": "string"
           },
@@ -6871,6 +6874,7 @@
           "bframes",
           "refs",
           "gopSize",
+          "npl",
           "cqMode",
           "transcode",
           "accel",

@@ -112,6 +112,7 @@ export interface SystemConfig {
     bframes: number;
     refs: number;
     gopSize: number;
+    npl: number;
     cqMode: CQMode;
     twoPass: boolean;
     transcode: TranscodePolicy;

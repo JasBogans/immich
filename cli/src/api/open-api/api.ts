@@ -2662,6 +2662,12 @@ export interface SystemConfigFFmpegDto {
     'maxBitrate': string;
     /**
      * 
+     * @type {number}
+     * @memberof SystemConfigFFmpegDto
+     */
+    'npl': number;
+    /**
+     * 
      * @type {string}
      * @memberof SystemConfigFFmpegDto
      */
