@@ -24,6 +24,7 @@ export enum SystemConfigKey {
   FFMPEG_BFRAMES = 'ffmpeg.bframes',
   FFMPEG_REFS = 'ffmpeg.refs',
   FFMPEG_GOP_SIZE = 'ffmpeg.gopSize',
+  FFMPEG_CQ_MODE = 'ffmpeg.cqMode',
   FFMPEG_TWO_PASS = 'ffmpeg.twoPass',
   FFMPEG_TRANSCODE = 'ffmpeg.transcode',
   FFMPEG_ACCEL = 'ffmpeg.accel',
@@ -93,6 +94,12 @@ export enum ToneMapping {
   DISABLED = 'disabled',
 }
 
+export enum CQMode {
+  AUTO = 'auto',
+  CQP = 'cqp',
+  ICQ = 'icq',
+}
+
 export interface SystemConfig {
   ffmpeg: {
     crf: number;
@@ -105,6 +112,7 @@ export interface SystemConfig {
     bframes: number;
     refs: number;
     gopSize: number;
+    cqMode: CQMode;
     twoPass: boolean;
     transcode: TranscodePolicy;
     accel: TranscodeHWAccel;

@@ -233,6 +233,8 @@ class ApiClient {
           return BulkIdResponseDto.fromJson(value);
         case 'BulkIdsDto':
           return BulkIdsDto.fromJson(value);
+        case 'CQMode':
+          return CQModeTypeTransformer().decode(value);
         case 'ChangePasswordDto':
           return ChangePasswordDto.fromJson(value);
         case 'CheckDuplicateAssetDto':

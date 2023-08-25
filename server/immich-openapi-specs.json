@@ -5309,6 +5309,14 @@
         ],
         "type": "object"
       },
+      "CQMode": {
+        "enum": [
+          "auto",
+          "cqp",
+          "icq"
+        ],
+        "type": "string"
+      },
       "ChangePasswordDto": {
         "properties": {
           "newPassword": {
@@ -6815,6 +6823,9 @@
           "bframes": {
             "type": "integer"
           },
+          "cqMode": {
+            "$ref": "#/components/schemas/CQMode"
+          },
           "crf": {
             "type": "integer"
           },
@@ -6860,6 +6871,7 @@
           "bframes",
           "refs",
           "gopSize",
+          "cqMode",
           "transcode",
           "accel",
           "tonemap",

@@ -207,6 +207,7 @@ Class | Method | HTTP request | Description
  - [AuthDeviceResponseDto](doc//AuthDeviceResponseDto.md)
  - [BulkIdResponseDto](doc//BulkIdResponseDto.md)
  - [BulkIdsDto](doc//BulkIdsDto.md)
+ - [CQMode](doc//CQMode.md)
  - [ChangePasswordDto](doc//ChangePasswordDto.md)
  - [CheckDuplicateAssetDto](doc//CheckDuplicateAssetDto.md)
  - [CheckDuplicateAssetResponseDto](doc//CheckDuplicateAssetResponseDto.md)
