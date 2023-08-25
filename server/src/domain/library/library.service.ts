@@ -100,7 +100,9 @@ export class LibraryService {
   async delete(authUser: AuthUserDto, id: string) {
     await this.access.requirePermission(authUser, Permission.LIBRARY_DELETE, id);
 
-    if ((await this.libraryRepository.getUploadLibraryCount(authUser.id)) == 1) {
+    const libraryType = (await this.libraryRepository.getById(id)).type;
+
+    if (libraryType == LibraryType.UPLOAD && (await this.libraryRepository.getUploadLibraryCount(authUser.id)) <= 1) {
       throw new BadRequestException('There must remain at least one upload library');
     }
 
@@ -333,6 +335,8 @@ export class LibraryService {
     };
 
     await this.jobRepository.queue({ name: JobName.REFRESH_LIBRARY, data: libraryRefreshJobData });
+
+    await this.libraryRepository.update({ id: libraryId, refreshedAt: new Date() });
   }
 
   async handleLibraryRefresh(job: ILibraryRefreshJob): Promise<boolean> {

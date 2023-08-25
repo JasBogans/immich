@@ -45,9 +45,10 @@
 
     try {
       library.exclusionPatterns.push(exclusionPatternToAdd);
+      exclusionPatternToAdd = '';
+
       exclusionPatterns = library.exclusionPatterns;
       addExclusionPattern = false;
-      exclusionPatternToAdd = null;
     } catch (error) {
       handleError(error, 'Unable to add exclude pattern');
     }

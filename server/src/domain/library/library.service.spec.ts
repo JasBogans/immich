@@ -538,6 +538,7 @@ describe(LibraryService.name, () => {
       assetMock.getByLibraryIdAndOriginalPath.mockResolvedValue(assetStub.image);
       libraryMock.softDelete.mockImplementation(() => Promise.resolve());
       libraryMock.getUploadLibraryCount.mockResolvedValue(2);
+      libraryMock.getById.mockResolvedValue(libraryStub.externalLibrary1);
 
       await sut.delete(authStub.admin, libraryStub.externalLibrary1.id);
 
@@ -555,14 +556,33 @@ describe(LibraryService.name, () => {
       assetMock.getByLibraryIdAndOriginalPath.mockResolvedValue(assetStub.image);
       libraryMock.softDelete.mockImplementation(() => Promise.resolve());
       libraryMock.getUploadLibraryCount.mockResolvedValue(1);
+      libraryMock.getById.mockResolvedValue(libraryStub.uploadLibrary);
 
-      await expect(sut.delete(authStub.admin, libraryStub.externalLibrary1.id)).rejects.toThrowError(
+      await expect(sut.delete(authStub.admin, libraryStub.uploadLibrary.id)).rejects.toThrowError(
         new BadRequestException('There must remain at least one upload library'),
       );
 
       expect(jobMock.queue).not.toHaveBeenCalled();
 
       expect(libraryMock.softDelete).not.toHaveBeenCalled();
+    });
+
+    it('should allow an external library to be deleted', async () => {
+      createLibraryService();
+
+      assetMock.getByLibraryIdAndOriginalPath.mockResolvedValue(assetStub.image);
+      libraryMock.softDelete.mockImplementation(() => Promise.resolve());
+      libraryMock.getUploadLibraryCount.mockResolvedValue(1);
+      libraryMock.getById.mockResolvedValue(libraryStub.externalLibrary1);
+
+      await sut.delete(authStub.admin, libraryStub.externalLibrary1.id);
+
+      expect(jobMock.queue).toHaveBeenCalledWith({
+        name: JobName.DELETE_LIBRARY,
+        data: { libraryId: libraryStub.externalLibrary1.id },
+      });
+
+      expect(libraryMock.softDelete).toHaveBeenCalledWith(libraryStub.externalLibrary1.id);
     });
   });
 
