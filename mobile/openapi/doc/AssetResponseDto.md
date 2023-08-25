@@ -8,7 +8,7 @@ import 'package:openapi/api.dart';
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**checksum** | **String** | base64 encoded sha1 hash | 
+**checksum** | **String** | base64 encoded sha1 hash | [optional] 
 **deviceAssetId** | **String** |  | 
 **deviceId** | **String** |  | 
 **duration** | **String** |  | 

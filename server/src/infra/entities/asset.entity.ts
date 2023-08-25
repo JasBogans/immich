@@ -94,9 +94,9 @@ export class AssetEntity {
   @Column({ type: 'boolean', default: false })
   isOffline!: boolean;
 
-  @Column({ type: 'bytea' })
+  @Column({ type: 'bytea', nullable: true })
   @Index()
-  checksum!: Buffer; // sha1 checksum
+  checksum!: Buffer | null; // sha1 checksum
 
   @Column({ type: 'varchar', nullable: true })
   duration!: string | null;

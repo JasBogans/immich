@@ -13,7 +13,7 @@ import { CuratedObjectsResponseDto } from './response-dto/curated-objects-respon
 
 export interface AssetCheck {
   id: string;
-  checksum: Buffer;
+  checksum: Buffer | null;
 }
 
 export interface AssetOwnerCheck extends AssetCheck {

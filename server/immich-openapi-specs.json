@@ -5431,6 +5431,7 @@
         "properties": {
           "checksum": {
             "description": "base64 encoded sha1 hash",
+            "nullable": true,
             "type": "string"
           },
           "deviceAssetId": {
@@ -5525,8 +5526,7 @@
           "updatedAt",
           "isFavorite",
           "isArchived",
-          "duration",
-          "checksum"
+          "duration"
         ],
         "type": "object"
       },

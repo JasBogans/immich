@@ -12,6 +12,7 @@ export interface ILibraryRepository {
   delete(id: string): Promise<void>;
   softDelete(id: string): Promise<void>;
   getDefaultUploadLibrary(ownerId: string): Promise<LibraryEntity | null>;
+  getUploadLibraryCount(ownerId: string): Promise<number>;
   update(library: Partial<LibraryEntity>): Promise<LibraryEntity>;
   getStatistics(id: string): Promise<LibraryStatsResponseDto>;
   getAssetPaths(libraryId: string): Promise<string[]>;

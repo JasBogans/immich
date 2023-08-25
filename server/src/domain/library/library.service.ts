@@ -100,6 +100,10 @@ export class LibraryService {
   async delete(authUser: AuthUserDto, id: string) {
     await this.access.requirePermission(authUser, Permission.LIBRARY_DELETE, id);
 
+    if ((await this.libraryRepository.getUploadLibraryCount(authUser.id)) == 1) {
+      throw new BadRequestException('There must remain at least one upload library');
+    }
+
     await this.libraryRepository.softDelete(id);
 
     this.jobRepository.queue({ name: JobName.DELETE_LIBRARY, data: { libraryId: id } });
@@ -249,12 +253,10 @@ export class LibraryService {
 
     // TODO: doesn't xmp replace the file extension? Will need investigation
     let sidecarPath: string | null = null;
-    try {
-      await this.storageRepository.checkFileExists(`${job.assetPath}.xmp`, R_OK);
+    if (await this.storageRepository.checkFileExists(`${job.assetPath}.xmp`, R_OK)) {
       sidecarPath = `${job.assetPath}.xmp`;
-    } catch (error) {}
+    }
 
-    const checksum = await this.cryptoRepository.hashFile(job.assetPath);
     const deviceAssetId = `${basename(job.assetPath)}`.replace(/\s+/g, '');
 
     // TODO: In wait of refactoring the domain asset service, this function is just manually written like this
@@ -263,7 +265,7 @@ export class LibraryService {
 
       library: { id: job.libraryId } as LibraryEntity,
 
-      checksum: checksum,
+      checksum: null,
       originalPath: job.assetPath,
 
       deviceAssetId: deviceAssetId,

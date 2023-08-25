@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Not } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
-import { LibraryEntity } from '../entities';
+import { LibraryEntity, LibraryType } from '../entities';
 
 @Injectable()
 export class LibraryRepository implements ILibraryRepository {
@@ -28,9 +28,19 @@ export class LibraryRepository implements ILibraryRepository {
     return this.libraryRepository.findOneOrFail({
       where: {
         ownerId: ownerId,
+        type: LibraryType.UPLOAD,
       },
       order: {
         createdAt: 'ASC',
+      },
+    });
+  }
+
+  getUploadLibraryCount(ownerId: string): Promise<number> {
+    return this.libraryRepository.count({
+      where: {
+        ownerId: ownerId,
+        type: LibraryType.UPLOAD,
       },
     });
   }

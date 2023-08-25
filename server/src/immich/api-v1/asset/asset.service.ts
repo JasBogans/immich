@@ -438,7 +438,9 @@ export class AssetService {
     const checksumMap: Record<string, string> = {};
 
     for (const { id, checksum } of results) {
-      checksumMap[checksum.toString('hex')] = id;
+      if (checksum) {
+        checksumMap[checksum.toString('hex')] = id;
+      }
     }
 
     return {

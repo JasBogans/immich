@@ -14,6 +14,7 @@ import {
   userStub,
 } from '@test';
 import { Stats } from 'fs';
+import { not } from 'joi';
 import { IAccessRepository } from '../access';
 import { IAssetRepository } from '../asset';
 import { ICryptoRepository } from '../crypto';
@@ -536,6 +537,7 @@ describe(LibraryService.name, () => {
 
       assetMock.getByLibraryIdAndOriginalPath.mockResolvedValue(assetStub.image);
       libraryMock.softDelete.mockImplementation(() => Promise.resolve());
+      libraryMock.getUploadLibraryCount.mockResolvedValue(2);
 
       await sut.delete(authStub.admin, libraryStub.externalLibrary1.id);
 
@@ -545,6 +547,22 @@ describe(LibraryService.name, () => {
       });
 
       expect(libraryMock.softDelete).toHaveBeenCalledWith(libraryStub.externalLibrary1.id);
+    });
+
+    it('should throw error if the last upload library is deleted', async () => {
+      createLibraryService();
+
+      assetMock.getByLibraryIdAndOriginalPath.mockResolvedValue(assetStub.image);
+      libraryMock.softDelete.mockImplementation(() => Promise.resolve());
+      libraryMock.getUploadLibraryCount.mockResolvedValue(1);
+
+      await expect(sut.delete(authStub.admin, libraryStub.externalLibrary1.id)).rejects.toThrowError(
+        new BadRequestException('There must remain at least one upload library'),
+      );
+
+      expect(jobMock.queue).not.toHaveBeenCalled();
+
+      expect(libraryMock.softDelete).not.toHaveBeenCalled();
     });
   });
 

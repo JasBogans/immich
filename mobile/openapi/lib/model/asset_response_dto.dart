@@ -13,7 +13,7 @@ part of openapi.api;
 class AssetResponseDto {
   /// Returns a new [AssetResponseDto] instance.
   AssetResponseDto({
-    required this.checksum,
+    this.checksum,
     required this.deviceAssetId,
     required this.deviceId,
     required this.duration,
@@ -38,7 +38,7 @@ class AssetResponseDto {
   });
 
   /// base64 encoded sha1 hash
-  String checksum;
+  String? checksum;
 
   String deviceAssetId;
 
@@ -123,7 +123,7 @@ class AssetResponseDto {
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (checksum.hashCode) +
+    (checksum == null ? 0 : checksum!.hashCode) +
     (deviceAssetId.hashCode) +
     (deviceId.hashCode) +
     (duration.hashCode) +
@@ -151,7 +151,11 @@ class AssetResponseDto {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
+    if (this.checksum != null) {
       json[r'checksum'] = this.checksum;
+    } else {
+    //  json[r'checksum'] = null;
+    }
       json[r'deviceAssetId'] = this.deviceAssetId;
       json[r'deviceId'] = this.deviceId;
       json[r'duration'] = this.duration;
@@ -200,7 +204,7 @@ class AssetResponseDto {
       final json = value.cast<String, dynamic>();
 
       return AssetResponseDto(
-        checksum: mapValueOfType<String>(json, r'checksum')!,
+        checksum: mapValueOfType<String>(json, r'checksum'),
         deviceAssetId: mapValueOfType<String>(json, r'deviceAssetId')!,
         deviceId: mapValueOfType<String>(json, r'deviceId')!,
         duration: mapValueOfType<String>(json, r'duration')!,
@@ -269,7 +273,6 @@ class AssetResponseDto {
 
   /// The list of required keys that must be present in a JSON.
   static const requiredKeys = <String>{
-    'checksum',
     'deviceAssetId',
     'deviceId',
     'duration',
