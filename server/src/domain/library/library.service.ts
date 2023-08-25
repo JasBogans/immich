@@ -1,4 +1,4 @@
-import { AssetType, LibraryEntity, LibraryType, UserEntity } from '@app/infra/entities';
+import { AssetEntity, AssetType, LibraryEntity, LibraryType, UserEntity } from '@app/infra/entities';
 import {
   BadRequestException,
   Inject,
@@ -175,7 +175,8 @@ export class LibraryService {
   }
 
   async handleAssetRefresh(job: ILibraryFileJob) {
-    this.logger.verbose(`Refreshing library asset: ${job.assetPath}`);
+    const assetPath = path.normalize(job.assetPath);
+    this.logger.verbose(`Refreshing library asset: ${assetPath}`);
 
     const user = await this.userRepository.get(job.ownerId);
 
@@ -183,20 +184,20 @@ export class LibraryService {
       throw new BadRequestException("User has no external path set, can't import asset");
     }
 
-    if (!path.normalize(job.assetPath).match(new RegExp(`^${user.externalPath}`))) {
+    if (!path.normalize(assetPath).match(new RegExp(`^${user.externalPath}`))) {
       throw new BadRequestException("Asset must be within the user's external path");
     }
 
-    const existingAssetEntity = await this.assetRepository.getByLibraryIdAndOriginalPath(job.libraryId, job.assetPath);
+    const existingAssetEntity = await this.assetRepository.getByLibraryIdAndOriginalPath(job.libraryId, assetPath);
 
     let stats: Stats;
     try {
-      stats = await this.storageRepository.stat(job.assetPath);
+      stats = await this.storageRepository.stat(assetPath);
     } catch (error) {
       // Can't access file, probably offline
       if (existingAssetEntity) {
         // Mark asset as offline
-        this.logger.debug(`Marking asset as offline: ${job.assetPath}`);
+        this.logger.debug(`Marking asset as offline: ${assetPath}`);
 
         await this.assetRepository.save({ id: existingAssetEntity.id, isOffline: true });
         return true;
@@ -215,24 +216,24 @@ export class LibraryService {
 
     if (!existingAssetEntity) {
       // This asset is new to us, read it from disk
-      this.logger.debug(`Importing new asset: ${job.assetPath}`);
+      this.logger.debug(`Importing new asset: ${assetPath}`);
       doImport = true;
     } else if (stats.mtime.toISOString() !== existingAssetEntity.fileModifiedAt.toISOString()) {
       // File modification time has changed since last time we checked, re-read from disk
       this.logger.debug(
-        `File modification time has changed, re-importing asset: ${job.assetPath}. Old mtime: ${existingAssetEntity.fileModifiedAt}. New mtime: ${stats.mtime}`,
+        `File modification time has changed, re-importing asset: ${assetPath}. Old mtime: ${existingAssetEntity.fileModifiedAt}. New mtime: ${stats.mtime}`,
       );
 
       doImport = true;
     } else if (stats && !job.analyze && !existingAssetEntity.isOffline) {
       // Asset exists on disk and in db and mtime has not changed. Also, we are not forcing refresn. Therefore, do nothing
-      this.logger.debug(`Asset already exists in database and on disk, will not import: ${job.assetPath}`);
+      this.logger.debug(`Asset already exists in database and on disk, will not import: ${assetPath}`);
       return true;
     }
 
     if (existingAssetEntity?.isOffline) {
       // File was previously offline but is now online
-      this.logger.debug(`Marking previously-offline asset as online: ${job.assetPath}`);
+      this.logger.debug(`Marking previously-offline asset as online: ${assetPath}`);
       await this.assetRepository.save({ id: existingAssetEntity.id, isOffline: false });
     }
 
@@ -243,67 +244,79 @@ export class LibraryService {
 
     let assetType: AssetType;
 
-    if (mimeTypes.isImage(job.assetPath)) {
+    if (mimeTypes.isImage(assetPath)) {
       assetType = AssetType.IMAGE;
-    } else if (mimeTypes.isVideo(job.assetPath)) {
+    } else if (mimeTypes.isVideo(assetPath)) {
       assetType = AssetType.VIDEO;
-    } else if (!mimeTypes.isAsset(job.assetPath)) {
-      throw new BadRequestException(`Unsupported file type ${job.assetPath}`);
+    } else if (!mimeTypes.isAsset(assetPath)) {
+      throw new BadRequestException(`Unsupported file type ${assetPath}`);
     } else {
-      throw new BadRequestException(`Unknown error when checking file type of ${job.assetPath}`);
+      throw new BadRequestException(`Unknown error when checking file type of ${assetPath}`);
     }
 
     // TODO: doesn't xmp replace the file extension? Will need investigation
     let sidecarPath: string | null = null;
-    if (await this.storageRepository.checkFileExists(`${job.assetPath}.xmp`, R_OK)) {
-      sidecarPath = `${job.assetPath}.xmp`;
+    if (await this.storageRepository.checkFileExists(`${assetPath}.xmp`, R_OK)) {
+      sidecarPath = `${assetPath}.xmp`;
     }
 
-    const deviceAssetId = `${basename(job.assetPath)}`.replace(/\s+/g, '');
+    const deviceAssetId = `${basename(assetPath)}`.replace(/\s+/g, '');
 
     // TODO: In wait of refactoring the domain asset service, this function is just manually written like this
-    const addedAsset = await this.assetRepository.create({
-      owner: { id: job.ownerId } as UserEntity,
 
-      library: { id: job.libraryId } as LibraryEntity,
+    let assetId;
+    if (job.analyze && existingAssetEntity) {
+      assetId = existingAssetEntity.id;
+      await this.assetRepository.updateAll([existingAssetEntity.id], {
+        fileCreatedAt: stats.ctime,
+        fileModifiedAt: stats.mtime,
+      });
+    } else {
+      // TODO: In wait of refactoring the domain asset service, this function is just manually written like this
+      const addedAsset = await this.assetRepository.create({
+        owner: { id: job.ownerId } as UserEntity,
 
-      checksum: null,
-      originalPath: job.assetPath,
+        library: { id: job.libraryId } as LibraryEntity,
 
-      deviceAssetId: deviceAssetId,
-      deviceId: 'Library Import',
+        checksum: null,
+        originalPath: assetPath,
 
-      fileCreatedAt: stats.ctime,
-      fileModifiedAt: stats.mtime,
+        deviceAssetId: deviceAssetId,
+        deviceId: 'Library Import',
 
-      type: assetType,
-      isFavorite: false,
-      isArchived: false,
-      duration: null,
-      isVisible: true,
-      livePhotoVideo: null,
-      resizePath: null,
-      webpPath: null,
-      thumbhash: null,
-      encodedVideoPath: null,
-      tags: [],
-      sharedLinks: [],
-      originalFileName: parse(job.assetPath).name,
-      faces: [],
-      sidecarPath: sidecarPath,
-      isReadOnly: true,
-      isOffline: false,
-    });
+        fileCreatedAt: stats.ctime,
+        fileModifiedAt: stats.mtime,
 
-    this.logger.debug(`Queuing metadata extraction for: ${job.assetPath}`);
+        type: assetType,
+        isFavorite: false,
+        isArchived: false,
+        duration: null,
+        isVisible: true,
+        livePhotoVideo: null,
+        resizePath: null,
+        webpPath: null,
+        thumbhash: null,
+        encodedVideoPath: null,
+        tags: [],
+        sharedLinks: [],
+        originalFileName: parse(assetPath).name,
+        faces: [],
+        sidecarPath: sidecarPath,
+        isReadOnly: true,
+        isOffline: false,
+      });
+      assetId = addedAsset.id;
+    }
+
+    this.logger.debug(`Queuing metadata extraction for: ${assetPath}`);
 
     await this.jobRepository.queue({
       name: JobName.METADATA_EXTRACTION,
-      data: { id: addedAsset.id, source: 'upload' },
+      data: { id: assetId, source: 'upload' },
     });
 
-    if (addedAsset.type === AssetType.VIDEO) {
-      await this.jobRepository.queue({ name: JobName.VIDEO_CONVERSION, data: { id: addedAsset.id } });
+    if (assetType === AssetType.VIDEO) {
+      await this.jobRepository.queue({ name: JobName.VIDEO_CONVERSION, data: { id: assetId } });
     }
 
     return true;
